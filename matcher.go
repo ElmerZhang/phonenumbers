@@ -50,7 +50,7 @@ func IsNationalPrefixPresentIfRequired(number *PhoneNumber) bool {
 	if number.GetCountryCodeSource() != PhoneNumber_FROM_DEFAULT_COUNTRY {
 		return true
 	}
-	var phoneNumberRegion = GetRegionCodeForCountryCode(int(number.GetCountryCode()))
+	var phoneNumberRegion = GetRegionCodeForCountryCode(number.GetCountryCode())
 	var metadata = getMetadataForRegion(phoneNumberRegion)
 	if metadata == nil {
 		return true
@@ -150,7 +150,7 @@ func AllNumberGroupsRemainGrouped(
 			// number itself, as we do not need to distinguish between
 			// different countries with the same country calling code
 			// and this is faster.
-			var region = GetRegionCodeForCountryCode(int(number.GetCountryCode()))
+			var region = GetRegionCodeForCountryCode(number.GetCountryCode())
 			if GetNddPrefixForRegion(region, true) != "" &&
 				unicode.IsDigit(rune(normalizedCandidate[fromIndex])) {
 				// This means there is no formatting symbol after the

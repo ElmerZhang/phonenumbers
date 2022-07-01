@@ -13,7 +13,7 @@ import (
 // intStringMap is our data structure for maps from prefixes to a single string
 // this is used for our carrier and geocoding maps
 type intStringMap struct {
-	Map       map[int]string
+	Map       map[int32]string
 	MaxLength int
 }
 
@@ -48,7 +48,7 @@ func loadPrefixMap(data string) (*intStringMap, error) {
 	}
 
 	maxLength := 0
-	mappings := make(map[int]string, mappingCount)
+	mappings := make(map[int32]string, mappingCount)
 	prefix := 0
 	for i := 0; i < int(mappingCount); i++ {
 		// first read our diff
@@ -66,7 +66,7 @@ func loadPrefixMap(data string) (*intStringMap, error) {
 			return nil, fmt.Errorf("unable to read interned value: %v", err)
 		}
 
-		mappings[prefix] = values[valueIntern]
+		mappings[int32(prefix)] = values[valueIntern]
 
 		strPrefix := fmt.Sprintf("%d", prefix)
 		if len(strPrefix) > maxLength {
@@ -84,7 +84,7 @@ func loadPrefixMap(data string) (*intStringMap, error) {
 // intStringArrayMap is our map from an int to an array of strings
 // this is used for our timezone and region maps
 type intStringArrayMap struct {
-	Map       map[int][]string
+	Map       map[int32][]string
 	MaxLength int
 }
 
@@ -119,7 +119,7 @@ func loadIntStringArrayMap(data string) (*intStringArrayMap, error) {
 	}
 
 	maxLength := 0
-	mappings := make(map[int][]string, mappingCount)
+	mappings := make(map[int32][]string, mappingCount)
 	key := 0
 	for i := 0; i < int(mappingCount); i++ {
 		// first read our diff
@@ -145,7 +145,7 @@ func loadIntStringArrayMap(data string) (*intStringArrayMap, error) {
 			}
 			keyValues[i] = values[valueIntern]
 		}
-		mappings[key] = keyValues
+		mappings[int32(key)] = keyValues
 
 		strPrefix := fmt.Sprintf("%d", key)
 		if len(strPrefix) > maxLength {

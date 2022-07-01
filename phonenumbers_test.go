@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/stretchr/testify/assert"
+	"google.golang.org/protobuf/proto"
 )
 
 func TestParse(t *testing.T) {
@@ -252,7 +252,7 @@ func TestIsPossibleNumberWithReason(t *testing.T) {
 
 func TestTruncateTooLongNumber(t *testing.T) {
 	var tests = []struct {
-		country int
+		country int32
 		input   uint64
 		res     bool
 		output  uint64
@@ -264,7 +264,7 @@ func TestTruncateTooLongNumber(t *testing.T) {
 
 	for _, tc := range tests {
 		num := &PhoneNumber{}
-		num.CountryCode = proto.Int(tc.country)
+		num.CountryCode = proto.Int32(tc.country)
 		num.NationalNumber = proto.Uint64(tc.input)
 		res := TruncateTooLongNumber(num)
 
@@ -699,9 +699,9 @@ var testPhoneNumbers = map[string]*PhoneNumber{
 	"UNKNOWN_COUNTRY_CODE_NO_RAW_INPUT": newPhoneNumber(2, 12345),
 }
 
-func newPhoneNumber(cc int, natNum uint64) *PhoneNumber {
+func newPhoneNumber(cc int32, natNum uint64) *PhoneNumber {
 	p := &PhoneNumber{}
-	p.CountryCode = proto.Int(cc)
+	p.CountryCode = proto.Int32(cc)
 	p.NationalNumber = proto.Uint64(natNum)
 	return p
 }
@@ -1273,7 +1273,7 @@ func TestGetCarrierWithPrefixForNumber(t *testing.T) {
 		num             string
 		lang            string
 		expectedCarrier string
-		expectedPrefix  int
+		expectedPrefix  int32
 	}{
 		{num: "+8613702032331", lang: "en", expectedCarrier: "China Mobile", expectedPrefix: 86137},
 		{num: "+8613702032331", lang: "zh", expectedCarrier: "中国移动", expectedPrefix: 86137},
@@ -1464,7 +1464,7 @@ func TestMaybeSeparateExtensionFromPhone(t *testing.T) {
 
 func TestGetSupportedCallingCodes(t *testing.T) {
 	var tests = []struct {
-		code    int
+		code    int32
 		present bool
 	}{
 		{
